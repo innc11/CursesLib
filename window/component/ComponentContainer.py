@@ -40,10 +40,10 @@ class ComponentContainer(ABC):  # inherited by BaseWindow
 			if component.enable:
 				component.onWindowClick(x, y)
 
-	def distributeOnUpdate(self, x, y, deltaTime):
+	def distributeOnUpdate(self, deltaTime):
 		for name, component in self.components.items():
 			if component.enable:
-				component.onWindowUpdate(x, y, deltaTime)
+				component.onWindowUpdate(deltaTime)
 
 	def distributeOnMouseWheel(self, x, y, directionUp):
 		for name, component in self.components.items():

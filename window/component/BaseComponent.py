@@ -60,7 +60,7 @@ class BaseComponent:
 	def onWindowDraw(self):
 		pass
 
-	def onWindowUpdate(self, x, y, deltaTime):
+	def onWindowUpdate(self, deltaTime):
 		pass
 
 	def onWindowClick(self, x, y):

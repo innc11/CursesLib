@@ -124,6 +124,7 @@ class Terminal(AbstractWindow):
                 elif bState & KB["wheel"]["down"]:
                     for w in self.subWindows:
                         w.mouseWheel(mouseX, mouseY, directionUp=False)  # x,y均为0,没法使用,但又非传递不可
+
         return True
 
     def mainLoop(self):

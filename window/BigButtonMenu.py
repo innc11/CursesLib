@@ -3,7 +3,6 @@ from abc import ABC
 
 from window.AbstractWindow import AbstractWindow
 from window.component.Border import Border
-from window.component.ScrollBar import ScrollBar
 
 
 class BigButtonMenu(AbstractWindow, ABC):
@@ -14,7 +13,6 @@ class BigButtonMenu(AbstractWindow, ABC):
 		self.itemHeight = 3  # 每个按钮的高度
 		self.yOffset = 0  # 按钮向下的偏移量，方便在窗口最上方留点位置去绘制其它的东西
 
-		self.addComponent("sb", ScrollBar())
 		self.addComponent("border", Border())
 
 	def onDraw(self):

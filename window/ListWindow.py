@@ -2,6 +2,7 @@ import curses
 from abc import ABC
 
 from window.AbstractWindow import AbstractWindow
+from window.component.Border import Border
 from window.component.ScrollBar import ScrollBar
 
 
@@ -13,15 +14,18 @@ class ListWindow(AbstractWindow, ABC):
 		self._scrollOffset = 0  # 控制列表滚动的偏移量
 
 		self.addComponent("sb", ScrollBar())
+		self.addComponent("border", Border())
 
 	def onDraw(self):
 		# 数据检查
 		self._scrollOffset = min(self._scrollOffset, self.hiddenLines)
 		self._scrollOffset = max(self._scrollOffset, 0)
 
-		self.drawBorder()
 		self.drawScrollBar()
 		self.drawContents()
+
+	def onResize(self, width, height):
+		return self.trblToXywh(0, 0, 0, 0)
 
 	@property
 	def lines(self):
@@ -54,11 +58,11 @@ class ListWindow(AbstractWindow, ABC):
 		"""绘制滚动栏"""
 
 		if self.hiddenLines == 0:
-			self.sb.viewProportion = 0
+			self.getComponent("sb").viewProportion = 0
 			return
 
-		self.sb.viewProportion = self.displayLines / len(self.items)
-		self.sb.progress = self.scrollPosition
+		self.getComponent("sb").viewProportion = self.displayLines / len(self.items)
+		self.getComponent("sb").progress = self.scrollPosition
 
 	def drawContents(self):
 		"""绘制所有内容"""
@@ -79,9 +83,6 @@ class ListWindow(AbstractWindow, ABC):
 		self.items.clear()
 
 	def onClick(self, x, y):
-		# self.add(f"click at {x}, {y}", None)
-		# self.add(f"pos at {self.x}, {self.y}", None)
-
 		if self.width - 2 > x > 0 and self.height - 1 > y > 0:
 			i = y - 1
 			if i < self.displayLines:
@@ -91,6 +92,7 @@ class ListWindow(AbstractWindow, ABC):
 				self.drawAFrame()
 
 	def onMouseWheel(self, x, y, directionUp):
+
 		if directionUp:
 			self._scrollOffset -= 1
 		else:

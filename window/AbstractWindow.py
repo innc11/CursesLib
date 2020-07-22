@@ -284,8 +284,13 @@ class AbstractWindow(ComponentContainer, ABC):
 
         self.checkDestroyState("can't pass the update event")
 
-        if self.passEvent(-1, -1, self.onUpdate, deltaTime):
-            self.distributeOnUpdate(-1, -1, deltaTime)  # 不是子窗口事件时才将这个事件传递给组件们
+        # 传递给所有子窗口
+        for win in self.subWindows:
+            win.update(deltaTime)
+
+        self.onUpdate(deltaTime)
+
+        self.distributeOnUpdate(deltaTime)  # 将这个事件传递给组件们
 
     def click(self, x, y):
         """传递事件"""
@@ -361,7 +366,7 @@ class AbstractWindow(ComponentContainer, ABC):
     def onDraw(self):
         pass
 
-    def onUpdate(self, x, y, deltaTime):
+    def onUpdate(self, deltaTime):
         pass
 
     def onClick(self, x, y):
