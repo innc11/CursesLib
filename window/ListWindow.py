@@ -1,4 +1,3 @@
-import curses
 from abc import ABC
 
 from window.AbstractWindow import AbstractWindow

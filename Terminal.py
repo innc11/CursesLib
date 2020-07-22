@@ -41,10 +41,9 @@ class Terminal(AbstractWindow):
         self.functions.append((fun, delay))
         self.interruptFlag = True
 
-    def addAWindow(self, win):
+    def addWindow(self, win):
         """添加一个子窗口"""
-
-        self.addWindow(win, reinitialize=False)
+        super().addWindow(win, initialize=self.screen is not None)
 
     @staticmethod
     def initializeCurses(screen, getchTimeout):
@@ -52,6 +51,7 @@ class Terminal(AbstractWindow):
         screen.timeout(getchTimeout)  # 设置getch()超时
         curses.mousemask(curses.ALL_MOUSE_EVENTS)  # 监听所有鼠标事件
 
+        # 加入几个预设颜色
         if curses.has_colors():
             curses.init_pair(1, curses.COLOR_BLUE, 0)
             curses.init_pair(2, curses.COLOR_CYAN, 0)

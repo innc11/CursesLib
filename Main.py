@@ -1,7 +1,6 @@
 from Terminal import Terminal
 from window.BigButtonMenu import BigButtonMenu
 from window.ListWindow import ListWindow
-from window.component.Border import Border
 from window.component.CloseButton import CloseButton
 from window.component.WindowTitle import WindowTitle
 
@@ -47,6 +46,6 @@ class MainMenu(BigButtonMenu):
 if __name__ == "__main__":
     ts = Terminal()
 
-    ts.addAWindow(MainMenu(monopolyMode=True, maskMode=True))
+    ts.addWindow(MainMenu(monopolyMode=True, maskMode=True))
 
     ts.mainLoop()

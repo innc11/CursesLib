@@ -42,11 +42,11 @@ class AbstractWindow(ComponentContainer, ABC):
 
         self.parent.execute(fun, delay)
 
-    def addWindow(self, win, reinitialize=True):
+    def addWindow(self, win, initialize=True):
         """创建一个子窗口
 
         :param win: 子窗口实例
-        :param reinitialize: 立即进行初始化并绘制内容
+        :param initialize: 立即进行初始化并绘制内容
         """
 
         if not isinstance(win, AbstractWindow):
@@ -55,8 +55,8 @@ class AbstractWindow(ComponentContainer, ABC):
         # 注册这个子窗口
         self.subWindows.append(win)
 
-        if reinitialize:
-            self.reinitializeSubWins()
+        if initialize:
+            self.initializeSubWins()
 
     def noticeReleaseSubWindows(self):
         """当有子窗口设置release=True后需要手动调一下本方法来将那个子窗口彻底释放掉"""
@@ -143,13 +143,13 @@ class AbstractWindow(ComponentContainer, ABC):
             self.distributeOnInitialize()  # 也把这个事件传递给组件们
 
         # 也要初始化所有子窗口
-        self.reinitializeSubWins()
+        self.initializeSubWins()
 
         # 绘制一帧不然画面还是空白的
         self.drawAFrame()
 
-    def reinitializeSubWins(self):
-        """重新初始所有未初始化的子窗口"""
+    def initializeSubWins(self):
+        """初始花所有子窗口"""
 
         for win in self.subWindows:
             if win.isDestroyed:
@@ -250,7 +250,7 @@ class AbstractWindow(ComponentContainer, ABC):
         :return: 是否是本窗口的事件
         :param x: 本窗口范围内的坐标
         :param y: 本窗口范围内的坐标
-        :param onXxx: 具体的事件回调
+        :param onXxx: 具体的事件回调函数
         :param args: 事件回调的参数
         """
 
@@ -306,6 +306,7 @@ class AbstractWindow(ComponentContainer, ABC):
         self.checkDestroyState("can't pass the mouse wheel event")
 
         x, y = self.lastClick if self.lastClick is not None else (0, 0)
+
         if self.passEvent(x, y, self.onMouseWheel, directionUp):
             self.distributeOnMouseWheel(x, y, directionUp)  # 不是子窗口事件时才将这个事件传递给组件们
 
