@@ -23,14 +23,14 @@ class AbstractWindow(ComponentContainer, ABC):
         self.subWindows = []  # 所有的子窗口
 
         self.monopolyMode = monopolyMode  # 独占模式,如果为True则不能点击本窗口外的其它区域,鼠标事件也会优先触发到本窗口
-        self.maskMode = maskMode  # 独占模式为True时有效,如果是True则点击本窗口外的其它区域完全无效,否则会关闭掉本窗口(多个窗口时)
+        self.maskMode = maskMode  # 独占模式为True时有效,如果是True则点击本窗口外的其它区域完全无效,否则会关闭掉本窗口
 
-        self.hasDestroyedFlag = False  # 曾经是否被销毁过
+        self.hasDestroyedFlag = False  # 是否曾被销毁过
         self.refreshFlag = False  # 刷新标志,设为True表示需要进行一次刷新
         self.releaseFlag = False  # 释放标志(注意不是Destroy),设为True会释放这个窗口
-        self.lastClick = None  # (x, y)  # 上一次鼠标(点击/拖动/滚轮)事件的位置
+        self.lastMousePosition = None  # (x, y)  # 上一次鼠标(点击/拖动/滚轮)事件的位置
 
-    def logForDebug(self, text):
+    def debug(self, text):
         log2(str(self) + ": " + text)
 
     def execute(self, fun, delay=0):
@@ -254,7 +254,7 @@ class AbstractWindow(ComponentContainer, ABC):
         :param args: 事件回调的参数
         """
 
-        self.lastClick = (x, y)  # 记录一下点击位置
+        self.lastMousePosition = (x, y)  # 记录一下点击位置
 
         win = self.getSubWindowByXY(x, y)
 
@@ -305,7 +305,7 @@ class AbstractWindow(ComponentContainer, ABC):
 
         self.checkDestroyState("can't pass the mouse wheel event")
 
-        x, y = self.lastClick if self.lastClick is not None else (0, 0)
+        x, y = self.lastMousePosition if self.lastMousePosition is not None else (0, 0)
 
         if self.passEvent(x, y, self.onMouseWheel, directionUp):
             self.distributeOnMouseWheel(x, y, directionUp)  # 不是子窗口事件时才将这个事件传递给组件们

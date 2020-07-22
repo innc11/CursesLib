@@ -17,8 +17,6 @@ KB = {
 
 
 class Terminal(AbstractWindow):
-    """终端调度器,是处于最底层最基本的那个窗口(本身也是一个基本窗口类),提供向上扩展能力,与curses库交互能力,窗口间调度能力"""
-
     def __init__(self):
         super().__init__(False, False)
         self.exitFlag = False  # 退出标志,为True会退出Terminal.mainLoop的循环(退出程序)
