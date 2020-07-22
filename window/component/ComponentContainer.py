@@ -1,13 +1,13 @@
 from abc import ABC
 
 
-class ComponentContainer(ABC):  # must be inherited by BaseWindow
+class ComponentContainer(ABC):  # inherited by BaseWindow
 	def __init__(self):
 		self.components = {}
 
 	def addComponent(self, name, component):
 		self.components[name] = component
-		component.window = self  # must be inherited by BaseWindow
+		component.window = self  # inherited by BaseWindow
 
 	def removeComponent(self, name):
 		del self.components[name]
@@ -50,17 +50,17 @@ class ComponentContainer(ABC):  # must be inherited by BaseWindow
 			if component.enable:
 				component.onWindowMouseWheel(x, y, directionUp)
 
-	def __getattr__(self, name):
-		if name in self.components:
-			return self.components[name]
-
-		raise AttributeError("could not find component or attribute: " + name)
-
-	def __getitem__(self, key):
-		if not isinstance(key, str):
-			raise TypeError(f"The key must be a string, instead of '{key}' {type(key)}")
-
-		if key in self.components:
-			return self.components[key]
-
-		return None
+	# def __getattr__(self, name):
+	# 	if name in self.components:
+	# 		return self.components[name]
+	#
+	# 	raise AttributeError("could not find component or attribute: " + name)
+	#
+	# def __getitem__(self, key):
+	# 	if not isinstance(key, str):
+	# 		raise TypeError(f"The key must be a string, instead of '{key}' {type(key)}")
+	#
+	# 	if key in self.components:
+	# 		return self.components[key]
+	#
+	# 	return None

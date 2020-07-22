@@ -1,11 +1,11 @@
 import curses
 from abc import ABC
 
-from window.BaseWindow import BaseWindow
+from window.AbstractWindow import AbstractWindow
 from window.component.ScrollBar import ScrollBar
 
 
-class ListWindow(BaseWindow, ABC):
+class ListWindow(AbstractWindow, ABC):
 	def __init__(self, monopolyMode=False, maskMode=False):
 		super().__init__(monopolyMode, maskMode)
 

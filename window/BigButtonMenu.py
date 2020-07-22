@@ -1,11 +1,12 @@
 import curses
 from abc import ABC
 
-from window.BaseWindow import BaseWindow
+from window.AbstractWindow import AbstractWindow
+from window.component.Border import Border
 from window.component.ScrollBar import ScrollBar
 
 
-class BigButtonMenu(BaseWindow, ABC):
+class BigButtonMenu(AbstractWindow, ABC):
 	def __init__(self, monopolyMode=False, maskMode=False):
 		super().__init__(monopolyMode, maskMode)
 
@@ -14,10 +15,13 @@ class BigButtonMenu(BaseWindow, ABC):
 		self.yOffset = 0  # 按钮向下的偏移量，方便在窗口最上方留点位置去绘制其它的东西
 
 		self.addComponent("sb", ScrollBar())
+		self.addComponent("border", Border())
 
 	def onDraw(self):
-		self.drawBorder()
 		self.drawButton()
+
+	def onResize(self, width, height):
+		return self.trblToXywh(0, 0, 0, 0)
 
 	def drawButton(self):
 

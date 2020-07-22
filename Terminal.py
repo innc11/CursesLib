@@ -3,7 +3,7 @@ import os
 import time
 import platform
 
-from window.BaseWindow import BaseWindow
+from window.AbstractWindow import AbstractWindow
 
 # 鼠标事件的对应代码(掩码)
 KB = {
@@ -16,7 +16,7 @@ KB = {
 }
 
 
-class Terminal(BaseWindow):
+class Terminal(AbstractWindow):
     """终端调度器,是处于最底层最基本的那个窗口(本身也是一个基本窗口类),提供向上扩展能力,与curses库交互能力,窗口间调度能力"""
 
     def __init__(self):
@@ -165,3 +165,6 @@ class Terminal(BaseWindow):
 
     def onDraw(self):
         pass
+
+    def onResize(self, width, height):
+        return self.trblToXywh(0, 0, 0, 0)
